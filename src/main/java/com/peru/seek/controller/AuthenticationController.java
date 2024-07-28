@@ -1,6 +1,6 @@
 package com.peru.seek.controller;
 
-import com.peru.seek.security.JwtTokenUtil;
+import com.peru.seek.security.JwtService;
 import com.peru.seek.security.dto.AuthenticationRequest;
 import com.peru.seek.security.dto.AuthenticationResponse;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,13 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final JwtTokenUtil jwtTokenUtil;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
+    private final JwtService jwtService;
+
+    public AuthenticationController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/authenticate")
@@ -32,7 +33,7 @@ public class AuthenticationController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
+        final String jwt = jwtService.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }

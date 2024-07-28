@@ -1,6 +1,6 @@
 package com.peru.seek.config;
 
-import com.peru.seek.security.JwtRequestFilter;
+import com.peru.seek.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,9 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private final JwtRequestFilter jwtRequestFilter;
+    private final JwtAuthenticationFilter jwtRequestFilter;
 
-    public WebSecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public WebSecurityConfig(JwtAuthenticationFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
