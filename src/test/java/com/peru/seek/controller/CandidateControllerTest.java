@@ -42,7 +42,7 @@ public class CandidateControllerTest {
     private CandidateResponseDTO candidateResponseDTO;
     private CandidateRequestDTO candidateRequestDTO;
 
-    public static final String TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKZXN1cyIsImlhdCI6MTcyMjEzODk4OCwiZXhwIjoyMDgyMTM4OTg4fQ.0B4FmqwNKD5ScKMxx4fVx2G6YiO_1bpR4WgvQ_fSfrw";
+    public static final String TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJKZXN1cyIsImlhdCI6MTcyMjE4MzI3OSwiZXhwIjoxNzI1MzM2ODc5fQ.d91-6U-sNHS-aEFecPkGeEvrtzcSrw_sCHdpudQ6rJU";
 
 
     @BeforeEach

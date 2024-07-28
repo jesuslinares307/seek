@@ -20,8 +20,7 @@ public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
+    private static final long JWT_EXPIRATION = 100L * 365 * 24 * 60 * 60;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -34,7 +33,7 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> extraClaims = new HashMap<>();
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, userDetails, JWT_EXPIRATION);
     }
 
     private String buildToken(

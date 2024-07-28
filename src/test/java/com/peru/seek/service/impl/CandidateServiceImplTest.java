@@ -38,6 +38,7 @@ class CandidateServiceImplTest {
 
 
     @Test
+    @DisplayName("Obtiene un candidato por Id")
     void getCandidateById_CandidateFound() {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
@@ -56,6 +57,8 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Devuelve una IlegalArgumenteException cuando se envía un id null")
+
     void getCandidateById_NullId() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             candidateService.getCandidateById(null);
@@ -64,6 +67,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Devuelve una CandidateNotFoundException cuando se encuentra un candidato por el id solicitado")
     void getCandidateById_CandidateNotFound() {
         when(candidateRepository.findById(100L)).thenReturn(Optional.empty());
 
@@ -75,6 +79,7 @@ class CandidateServiceImplTest {
 
 
     @Test
+    @DisplayName("Obtiene una lista de todos los candidatos consultados")
     void getAllCandidates_WithCandidates() {
         Candidate candidate1 = new Candidate();
         candidate1.setId(1L);
@@ -102,7 +107,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Retorna una lista vacía cuando no hay candidatos")
     void getAllCandidates_EmptyList() {
         //mock
         when(candidateRepository.findAll()).thenReturn(Collections.emptyList());
@@ -120,6 +125,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Crea un candidato con exito")
     void createCandidate_CandidateCreatedSuccessfully() {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
@@ -146,6 +152,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Retorna una CandidateDuplicateException cuando ya existe un candodado registrado con el mismo email")
     void createCandidate_CandidateAlreadyExists() {
         CandidateRequestDTO candidateRequestDTO = getCandidateRequestDTO();
 
@@ -158,6 +165,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Actualiza un candidato con exito")
     void updateCandidate_CandidateUpdatedSuccessfully() {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
@@ -183,6 +191,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Retorna una exception tipo CandidateNotFoundException cuando no existe el candidato que se quiere actualizar")
     void updateCandidate_CandidateNotFound() {
         CandidateRequestDTO candidateRequestDTO = getCandidateRequestDTO();
         when(candidateRepository.findById(100L)).thenReturn(Optional.empty());
@@ -194,6 +203,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Elimina un candidato con exito")
     void deleteCandidate_CandidateDeletedSuccessfully() {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
@@ -207,6 +217,7 @@ class CandidateServiceImplTest {
     }
 
     @Test
+    @DisplayName("Candidato a eliminar no encontrado")
     void deleteCandidate_CandidateNotFound() {
         when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
 
