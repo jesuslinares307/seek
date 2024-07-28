@@ -13,7 +13,6 @@ import java.util.ArrayList;
 @Service
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
-
     private final UserRepository userRepository;
 
     public CustomUserDetailsServiceImpl(UserRepository userRepository) {
@@ -22,10 +21,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        Users user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 }

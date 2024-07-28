@@ -3,6 +3,7 @@ package com.peru.seek.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.peru.seek.dto.CandidateRequestDTO;
 import com.peru.seek.dto.CandidateResponseDTO;
+import com.peru.seek.exceptions.CandidateNotFoundException;
 import com.peru.seek.service.CandidateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,8 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -65,7 +68,7 @@ public class CandidateControllerTest {
 
     @Test
     void getCandidateById_NotFound() throws Exception {
-        given(candidateService.getCandidateById(1L)).willReturn(null);
+        doThrow(new CandidateNotFoundException("Candidate not found")).when(candidateService).getCandidateById(1L);
 
         mockMvc.perform(get("/api/v1/candidates/1")
                         .header(AUTHORIZATION, TOKEN)
@@ -107,7 +110,7 @@ public class CandidateControllerTest {
 
     @Test
     void updateCandidate_NotFound() throws Exception {
-        given(candidateService.updateCandidate(eq(1L), any(CandidateRequestDTO.class))).willReturn(null);
+        doThrow(new CandidateNotFoundException("Candidate not found")).when(candidateService).updateCandidate(eq(1L), any(CandidateRequestDTO.class));
 
         mockMvc.perform(put("/api/v1/candidates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -117,7 +120,7 @@ public class CandidateControllerTest {
 
     @Test
     void deleteCandidate() throws Exception {
-        given(candidateService.deleteCandidate(1L)).willReturn(true);
+        doNothing().when(candidateService).deleteCandidate(1L);
 
         mockMvc.perform(delete("/api/v1/candidates/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -126,7 +129,7 @@ public class CandidateControllerTest {
 
     @Test
     void deleteCandidate_NotFound() throws Exception {
-        given(candidateService.deleteCandidate(1L)).willReturn(false);
+        doThrow(new CandidateNotFoundException("Candidate not found")).when(candidateService).deleteCandidate(1L);
 
         mockMvc.perform(delete("/api/v1/candidates/1")
                         .contentType(MediaType.APPLICATION_JSON))

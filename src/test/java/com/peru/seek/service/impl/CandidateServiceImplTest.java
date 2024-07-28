@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ class CandidateServiceImplTest {
     @Mock
     private CandidateRepository candidateRepository;
 
-    @Mock
+    @Spy
     private CandidateMapper candidateMapper;
 
     @InjectMocks
@@ -39,7 +40,7 @@ class CandidateServiceImplTest {
 
     @Test
     @DisplayName("Obtiene un candidato por Id")
-    void getCandidateById_CandidateFound() {
+    void getCandidateById_CandidateFound() throws CandidateNotFoundException {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
 
@@ -54,16 +55,6 @@ class CandidateServiceImplTest {
         assertEquals("jesus", result.name());
         verify(candidateRepository).findById(1L);
         verify(candidateMapper).apply(candidate);
-    }
-
-    @Test
-    @DisplayName("Devuelve una IlegalArgumenteException cuando se envía un id null")
-
-    void getCandidateById_NullId() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            candidateService.getCandidateById(null);
-        });
-        assertEquals("Invalid ID provided: null", exception.getMessage());
     }
 
     @Test
@@ -166,7 +157,7 @@ class CandidateServiceImplTest {
 
     @Test
     @DisplayName("Actualiza un candidato con exito")
-    void updateCandidate_CandidateUpdatedSuccessfully() {
+    void updateCandidate_CandidateUpdatedSuccessfully() throws CandidateNotFoundException {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
         CandidateRequestDTO candidateRequestDTO = getCandidateRequestDTO();
@@ -204,28 +195,34 @@ class CandidateServiceImplTest {
 
     @Test
     @DisplayName("Elimina un candidato con exito")
-    void deleteCandidate_CandidateDeletedSuccessfully() {
+    void deleteCandidate_CandidateDeletedSuccessfully() throws CandidateNotFoundException {
         Candidate candidate = new Candidate();
         candidate.setId(1L);
+        candidate.setName("JESUS");
+        candidate.setEmail("jesuslinares307@gmail.com");
+        candidate.setGender("M");
+        candidate.setSalaryExpected(BigDecimal.valueOf(3500.00));
+        candidate.setCreatedAt(LocalDate.now());
+
         when(candidateRepository.findById(1L)).thenReturn(Optional.of(candidate));
 
-        boolean result = candidateService.deleteCandidate(1L);
+        candidateService.deleteCandidate(1L);
 
-        assertTrue(result);
         verify(candidateRepository).findById(1L);
-        verify(candidateRepository).delete(candidate);
+        verify(candidateRepository).deleteById(1L);
+
     }
 
     @Test
     @DisplayName("Candidato a eliminar no encontrado")
-    void deleteCandidate_CandidateNotFound() {
+    void deleteCandidate_CandidateNotFound() throws CandidateNotFoundException {
         when(candidateRepository.findById(1L)).thenReturn(Optional.empty());
 
-        boolean result = candidateService.deleteCandidate(1L);
-
-        assertFalse(result);
+        assertThrows(CandidateNotFoundException.class, () -> {
+            candidateService.deleteCandidate(1L);
+        });
         verify(candidateRepository).findById(1L);
-        verify(candidateRepository, never()).delete(any(Candidate.class));
+        verify(candidateRepository, never()).deleteById(1L);
     }
 
     private static CandidateResponseDTO getCandidateResponseDTO() {

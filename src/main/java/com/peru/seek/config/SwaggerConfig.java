@@ -16,7 +16,12 @@ public class SwaggerConfig {
 
         Components components = new Components().addSecuritySchemes("bearerScheme", bearerScheme);
 
-        return new OpenAPI().components(components).info(new Info().title("Seek App Spring Boot 3 API").version("1.0").description("Seek Candidates App made in Spring Boot 3 with Swagger").termsOfService("http://swagger.io/terms/")).addSecurityItem(new SecurityRequirement().addList("bearerScheme"));
+        return new OpenAPI().components(components).info(new Info()
+                .title("Seek App Spring Boot 3 API")
+                .version("1.0")
+                .description("Seek Candidates App made in Spring Boot 3 with Swagger")
+                .termsOfService("http://swagger.io/terms/"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerScheme"));
     }
 
 }

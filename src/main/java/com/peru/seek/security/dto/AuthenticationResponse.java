@@ -1,14 +1,5 @@
 package com.peru.seek.security.dto;
 
-public class AuthenticationResponse {
+public record AuthenticationResponse(String jwt) {
 
-    private String jwt;
-
-    public AuthenticationResponse(String jwt) {
-        this.jwt = jwt;
-    }
-
-    public String getJwt() {
-        return jwt;
-    }
 }
