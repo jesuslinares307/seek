@@ -4,6 +4,7 @@ import com.peru.seek.dto.CandidateRequestDTO;
 import com.peru.seek.dto.CandidateResponseDTO;
 import com.peru.seek.service.CandidateService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,23 +21,27 @@ public class CandidateController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<CandidateResponseDTO> getAllCandidates() {
         return candidateService.getAllCandidates();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CandidateResponseDTO> getCandidateById(@PathVariable Long id) {
         CandidateResponseDTO candidateResponseDTO = candidateService.getCandidateById(id);
         return (candidateResponseDTO != null) ? ResponseEntity.ok(candidateResponseDTO) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CandidateResponseDTO> createCandidate(@RequestBody CandidateRequestDTO candidateRequestDTO) {
         CandidateResponseDTO candidateResponseDTO = candidateService.createCandidate(candidateRequestDTO);
         return ResponseEntity.ok(candidateResponseDTO);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('INVITED')")
     public ResponseEntity<CandidateResponseDTO> updateCandidate(
             @PathVariable Long id,
             @RequestBody CandidateRequestDTO candidateRequestDTO) {
@@ -45,6 +50,7 @@ public class CandidateController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('INVITED')")
     public ResponseEntity<Void> deleteCandidate(@PathVariable Long id) {
         boolean deleted = candidateService.deleteCandidate(id);
         return (deleted) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();

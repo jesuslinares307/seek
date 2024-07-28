@@ -10,3 +10,10 @@ INSERT INTO users (username, password)
 VALUES ('Jesus', '$2a$12$i/5VAsp7JHbI3EGyFo9HPezVffZhPVyGNMdjQG/dWjF7YtEE1uEf.'),
        ('Adolfo', '$2a$12$QV6KwxwW708cFB/yCeyTjeoJQ7pDM4dDVw2EVpf9scL.M5Y1fHAsC');
 
+INSERT INTO roles (name)
+VALUES ('ADMIN'),
+       ('INVITED');
+
+INSERT INTO user_roles (user_id, role_id)
+VALUES (1, 1),
+       (2, 2);
