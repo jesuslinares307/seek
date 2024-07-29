@@ -1,12 +1,13 @@
 package com.peru.seek.service.impl;
 
-import com.peru.seek.dto.CandidateRequestDTO;
-import com.peru.seek.dto.CandidateResponseDTO;
-import com.peru.seek.exceptions.CandidateDuplicateException;
-import com.peru.seek.exceptions.CandidateNotFoundException;
-import com.peru.seek.mapper.CandidateMapper;
-import com.peru.seek.model.Candidate;
-import com.peru.seek.repository.CandidateRepository;
+import com.peru.seek.core.candidates.usecase.CandidateServiceImpl;
+import com.peru.seek.core.candidates.model.CandidateRequestDTO;
+import com.peru.seek.core.candidates.model.CandidateResponseDTO;
+import com.peru.seek.core.candidates.usecase.exceptions.CandidateDuplicateException;
+import com.peru.seek.core.candidates.usecase.exceptions.CandidateNotFoundException;
+import com.peru.seek.core.candidates.port.mapper.CandidateMapper;
+import com.peru.seek.infrastructure.outbound.repositories.candidates.entities.Candidate;
+import com.peru.seek.infrastructure.outbound.repositories.candidates.CandidateRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

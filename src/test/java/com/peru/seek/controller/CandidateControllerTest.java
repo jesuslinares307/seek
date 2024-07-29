@@ -1,10 +1,11 @@
 package com.peru.seek.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.peru.seek.dto.CandidateRequestDTO;
-import com.peru.seek.dto.CandidateResponseDTO;
-import com.peru.seek.exceptions.CandidateNotFoundException;
-import com.peru.seek.service.CandidateService;
+import com.peru.seek.core.candidates.model.CandidateRequestDTO;
+import com.peru.seek.core.candidates.model.CandidateResponseDTO;
+import com.peru.seek.core.candidates.usecase.exceptions.CandidateNotFoundException;
+import com.peru.seek.core.candidates.port.CandidateService;
+import com.peru.seek.infrastructure.CandidatesApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = CandidatesApplication.class)
 @AutoConfigureMockMvc
 public class CandidateControllerTest {
 
